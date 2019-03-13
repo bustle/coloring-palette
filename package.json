@@ -1,0 +1,55 @@
+{
+  "name": "coloring-palette",
+  "version": "0.0.1",
+  "description": "A library that generates color palettes based on the Material UI algorithm",
+  "main": "dist/index.js",
+  "module": "dist/index-esm.js",
+  "types": "dist/index.d.ts",
+  "repository": "git@github.com:tsiege/coloring-palette.git",
+  "homepage": "https://github.com/tsiege/coloring-palette",
+  "scripts": {
+    "test": "npm run unit-test && npm run lint",
+    "unit-test": "mocha --opts mocha.opts",
+    "lint": "tsc && tslint index.ts",
+    "format": "tslint index.ts --fix",
+    "build": "tsc -p tsconfig-build.json && rollup -c rollup.config-esm.js && rollup -c rollup.config-umd.js && node bundle-types.js",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "colors",
+    "typescript",
+    "color",
+    "manipulation",
+    "tinycolor",
+    "hsa",
+    "rgb",
+    "material-ui",
+    "palette"
+  ],
+  "author": "tsiege",
+  "dependencies": {
+    "@ctrl/tinycolor": "^2.4.0",
+    "bezier-easing": "^2.1.0"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "^6.3.0",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.12.4",
+    "bluestream": "^10.3.3",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "prettier": "^1.15.2",
+    "rollup": "^1.4.1",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "ts-node": "^7.0.1",
+    "tslib": "^1.9.3",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.16.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.3.3333"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}
