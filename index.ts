@@ -44,27 +44,33 @@ function generatePointsOnCurve(curve: bezier.EasingFunction, steps: number) {
 export interface GenerateShadesOptions {
   readonly hueStart: number
   readonly hueEnd: number
+  readonly hueCurve?: bezier.EasingFunction
   readonly satStart: number
   readonly satEnd: number
+  readonly satCurve?: bezier.EasingFunction
   readonly satRate?: number
   readonly valStart: number
   readonly valEnd: number
+  readonly valCurve?: bezier.EasingFunction
   readonly steps?: number
 }
 
 export function generateShades({
   hueStart,
   hueEnd,
+  hueCurve = easeInQuad,
   satStart,
   satEnd,
+  satCurve = easeOutQuad,
   satRate = 100,
   valStart,
   valEnd,
+  valCurve = easeOutQuad,
   steps = 10,
 }: GenerateShadesOptions) {
-  const hueArray = generatePointsOnCurve(easeInQuad, steps)
-  const satArray = generatePointsOnCurve(easeOutQuad, steps)
-  const valArray = generatePointsOnCurve(easeOutQuad, steps).reverse()
+  const hueArray = generatePointsOnCurve(hueCurve, steps)
+  const satArray = generatePointsOnCurve(satCurve, steps)
+  const valArray = generatePointsOnCurve(valCurve, steps).reverse()
   const hueDistance = calcShortestDistance(hueStart, hueEnd)
   const calcHueEnd = hueStart + hueDistance === hueEnd ? hueStart + hueDistance : hueStart - hueDistance
 
