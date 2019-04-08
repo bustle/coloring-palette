@@ -1,6 +1,7 @@
 import tinycolor, { TinyColor, ColorInput, ColorFormats } from '@ctrl/tinycolor'
 import bezier from 'bezier-easing'
 import { easeInQuad, easeOutQuad, muiHueCurve, muiSatCurve, muiValCurve } from './curves'
+const { abs, ceil, round, sqrt, cos, log10 } = Math
 
 export type ColorFormat = ColorFormats | null
 export type Color = TinyColor | string
@@ -42,18 +43,18 @@ export interface MaterialUIPalette {
 
 const atMost100 = num => (num > 100 ? 100 : num)
 
-function generateValStart(x) {
-  return Math.round(100 - (100 - x / 100 - Math.sqrt(x) + x * Math.cos(2.6)) / (2 * Math.log(x + 1) + 1.25))
+function generateValStart(v) {
+  return round(100 - (100 - v / 100 - sqrt(v) + v * cos(2.65)) / (2 * log10(v + 1) + 1.25))
 }
 
 function calcShortestDistance(a: number, b: number) {
-  const difference = Math.abs(a - b) % 360
+  const difference = abs(a - b) % 360
   return difference > 180 ? 360 - difference : difference
 }
 
 export function calcHueDistance(start: number, end: number): [number, number] {
-  start = Math.round(start)
-  end = Math.round(end)
+  start = round(start)
+  end = round(end)
   if (start === 0) {
     start = 360
   }
@@ -80,13 +81,13 @@ const altColorAdjs = {
 }
 
 function contrastText(color) {
-  return new TinyColor(color).getLuminance() < 1 / 3 ? new TinyColor('#FFF') : new TinyColor('#000')
+  return tinycolor(color).getLuminance() < 1 / 3 ? tinycolor('#FFF') : tinycolor('#000')
 }
 
 function altColor(color: ColorInput, alt: 'A100' | 'A200' | 'A400' | 'A700') {
-  const { h, s, v } = new TinyColor(color).toHsv()
+  const { h, s, v } = tinycolor(color).toHsv()
   const { hAdj, sAdj, vAdj } = altColorAdjs[alt]
-  return new TinyColor({ h: (h + hAdj) % 360, s: atMost100(s * sAdj), v: atMost100(v * vAdj) })
+  return tinycolor({ h: (h + hAdj) % 360, s: atMost100(s * sAdj), v: atMost100(v * vAdj) })
 }
 
 function formatColor(color: TinyColor, format: ColorFormat) {
@@ -153,10 +154,10 @@ export function generateShades({
     const hueStep = distribute(hueArray[index], [0, 1], calcHueDistance(hueStart, hueEnd))
     const satStep = distribute(satArray[index], [0, 1], [satStart, satEnd]) * (satRate * 0.01)
     const valStep = distribute(valArray[index], [0, 1], [valEnd, valStart])
-    const color = new TinyColor({
-      h: (Math.ceil(hueStep) + 360) % 360,
-      s: atMost100(Math.ceil(satStep)),
-      v: atMost100(Math.ceil(valStep)),
+    const color = tinycolor({
+      h: (ceil(hueStep) + 360) % 360,
+      s: atMost100(ceil(satStep)),
+      v: atMost100(ceil(valStep)),
     })
 
     shades.push(formatColor(color, format))
@@ -224,14 +225,14 @@ export function generateMaterialUIPalette({
 }
 
 export default function materialUI(color: ColorInput, format: ColorFormat = 'hex') {
-  const { h, s, v } = new TinyColor(color).toHsv()
+  const { h, s, v } = tinycolor(color).toHsv()
 
   const hueStart = h
-  const satStart = Math.round(s * 10)
+  const satStart = round(s * 10)
   const valStart = generateValStart(v * 100)
   const hueEnd = (h + 354) % 360
-  const satEnd = Math.round(atMost100(s * 108))
-  const valEnd = Math.round(v * 66)
+  const satEnd = round(atMost100(s * 108))
+  const valEnd = round(v * 66)
 
   return generateMaterialUIPalette({ hueStart, satStart, valStart, hueEnd, valEnd, satEnd, format })
 }
