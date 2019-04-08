@@ -5,7 +5,7 @@ A library that generates color palettes based on the Material UI color system, f
 
 ## generateShades
 
-Generates an array of `TinyColor` shades between two HSV values using optional curve functions. Defaults to ease-in/ease-out curves and 10 shades.
+Generates an array of `TinyColor` shades between two HSV values using optional curve functions. Defaults to ease-in/ease-out curves and 10 shades. For inputs the `hue` is a number from 0 - 360, `saturation` and `value` are both numbers from 0 - 100.
 
 ```ts
 export declare function generateShades({ hueStart, hueEnd, hueCurve, satStart, satEnd, satCurve, satRate, valStart, valEnd, valCurve, steps, format }: GenerateShadesOptions): Color[];
@@ -25,7 +25,7 @@ export interface GenerateShadesOptions {
   readonly format = null, // the desired output of the array, null defaults to Tinycolor instances
 }
 
-// given the reds hsv(355, 4, 90) and hsv(5, 90, 10)
+// given the reds hsv(351, 8, 100) and hsv(0, 85, 72)
 const shades = generateShades({
   hueStart: 351,
   satStart: 8,
@@ -52,7 +52,7 @@ Or better visualized as;
 
 ## generateMaterialUIPalette
 
-Generates a color palette based on material ui from two HSV values. Shades returned are `TinyColor` objects or strings, based on the `format` option, which defaults to `'hex'`. Optional curve functions default to `muiHueCurve`, `muiSatCurve`, and `muiValCurve`.
+Generates a color palette based on material ui from two HSV values. Shades returned are `TinyColor` objects or strings, based on the `format` option, which defaults to `'hex'`. Optional curve functions default to `muiHueCurve`, `muiSatCurve`, and `muiValCurve`. For inputs the `hue` is a number from 0 - 360, `saturation` and `value` are both numbers from 0 - 100.
 
 
 ```ts
@@ -89,7 +89,7 @@ interface MaterialUIPalette {
   readonly A700: { color: TinyColor | string; contrastText: TinyColor | string }
 }
 
-// given the reds hsv(355, 4, 90) and hsv(5, 90, 10)
+// given the reds hsv(351, 8, 100) and hsv(0, 85, 72)
 const shades = generateMaterialUIPalette({
   hueStart: 351,
   satStart: 8,
@@ -153,58 +153,24 @@ Generates a color palette based on material ui from a color input. Shades return
 
 ```ts
 export declare function materialUI(color: ColorInput, format: ColorFormat = 'hex'): TinyColor[];
-
-// given the reds hsv(355, 4, 90) and hsv(5, 90, 10)
-const shades = materialUI('#f44336', 'hex')
-// { '50': { color: '#fceae8', contrastText: '#000000' },
-//   '100': { color: '#fcc6c2', contrastText: '#000000' },
-//   '200': { color: '#f79d97', contrastText: '#000000' },
-//   '300': { color: '#f06e67', contrastText: '#ffffff' },
-//   '400': { color: '#e64843', contrastText: '#ffffff' },
-//   '500': { color: '#db3330', contrastText: '#ffffff' },
-//   '600': { color: '#cc2525', contrastText: '#ffffff' },
-//   '700': { color: '#bf2123', contrastText: '#ffffff' },
-//   '800': { color: '#b01c1f', contrastText: '#ffffff' },
-//   '900': { color: '#a11a1e', contrastText: '#ffffff' },
-//   A100: { color: '#ff968a', contrastText: '#000000' },
-//   A200: { color: '#ff5c4b', contrastText: '#ffffff' },
-//   A400: { color: '#ff1707', contrastText: '#ffffff' },
-//   A700: { color: '#eb0e02', contrastText: '#ffffff' } }
+// Given a Teal input
+const shades = materialUI('#009688', 'hex')
+// { '50': { color: '#dcf5f2', contrastText: '#000000' },
+//   '100': { color: '#b0f5ee', contrastText: '#000000' },
+//   '200': { color: '#7eede2', contrastText: '#000000' },
+//   '300': { color: '#4ae0cf', contrastText: '#000000' },
+//   '400': { color: '#21d1ba', contrastText: '#000000' },
+//   '500': { color: '#0dbda2', contrastText: '#000000' },
+//   '600': { color: '#05a88d', contrastText: '#ffffff' },
+//   '700': { color: '#019177', contrastText: '#ffffff' },
+//   '800': { color: '#007a64', contrastText: '#ffffff' },
+//   '900': { color: '#006350', contrastText: '#ffffff' },
+//   A100: { color: '#6ffff5', contrastText: '#000000' },
+//   A200: { color: '#26fff1', contrastText: '#000000' },
+//   A400: { color: '#00ecd5', contrastText: '#000000' },
+//   A700: { color: '#00b29e', contrastText: '#000000' } }
 ```
-
-Material UIs colors
-
-![#e0f2f1](https://placehold.it/25/e0f2f1/000000?text=+)
-![#b2dfdb](https://placehold.it/25/b2dfdb/000000?text=+)
-![#80cbc4](https://placehold.it/25/80cbc4/000000?text=+)
-![#4db6ac](https://placehold.it/25/4db6ac/000000?text=+)
-![#26a69a](https://placehold.it/25/26a69a/000000?text=+)
-![#009688](https://placehold.it/25/009688/000000?text=+)
-![#00897b](https://placehold.it/25/00897b/000000?text=+)
-![#00796b](https://placehold.it/25/00796b/000000?text=+)
-![#00695c](https://placehold.it/25/00695c/000000?text=+)
-![#004d40](https://placehold.it/25/004d40/000000?text=+)
-![#a7ffeb](https://placehold.it/25/a7ffeb/000000?text=+)
-![#64ffda](https://placehold.it/25/64ffda/000000?text=+)
-![#1de9b6](https://placehold.it/25/1de9b6/000000?text=+)
-![#00bfa5](https://placehold.it/25/00bfa5/000000?text=+)
-
-![#ffebee](https://placehold.it/25/ffebee/000000?text=+)
-![#ffcdd2](https://placehold.it/25/ffcdd2/000000?text=+)
-![#ef9a9a](https://placehold.it/25/ef9a9a/000000?text=+)
-![#e57373](https://placehold.it/25/e57373/000000?text=+)
-![#ef5350](https://placehold.it/25/ef5350/000000?text=+)
-![#f44336](https://placehold.it/25/f44336/000000?text=+)
-![#e53935](https://placehold.it/25/e53935/000000?text=+)
-![#d32f2f](https://placehold.it/25/d32f2f/000000?text=+)
-![#c62828](https://placehold.it/25/c62828/000000?text=+)
-![#b71c1c](https://placehold.it/25/b71c1c/000000?text=+)
-![#ff8a80](https://placehold.it/25/ff8a80/000000?text=+)
-![#ff5252](https://placehold.it/25/ff5252/000000?text=+)
-![#ff1744](https://placehold.it/25/ff1744/000000?text=+)
-![#d50000](https://placehold.it/25/d50000/000000?text=+)
-
-My New Versions
+Visualized below
 
 ![#dcf5f2](https://placehold.it/25/dcf5f2/000000?text=+)
 ![#b0f5ee](https://placehold.it/25/b0f5ee/000000?text=+)
@@ -221,17 +187,20 @@ My New Versions
 ![#00ecd5](https://placehold.it/25/00ecd5/000000?text=+)
 ![#00b29e](https://placehold.it/25/00b29e/000000?text=+)
 
-![#fceae8](https://placehold.it/25/fceae8/000000?text=+)
-![#fcc6c2](https://placehold.it/25/fcc6c2/000000?text=+)
-![#f79d97](https://placehold.it/25/f79d97/000000?text=+)
-![#f06e67](https://placehold.it/25/f06e67/000000?text=+)
-![#e64843](https://placehold.it/25/e64843/000000?text=+)
-![#db3330](https://placehold.it/25/db3330/000000?text=+)
-![#cc2525](https://placehold.it/25/cc2525/000000?text=+)
-![#bf2123](https://placehold.it/25/bf2123/000000?text=+)
-![#b01c1f](https://placehold.it/25/b01c1f/000000?text=+)
-![#a11a1e](https://placehold.it/25/a11a1e/000000?text=+)
-![#ff968a](https://placehold.it/25/ff968a/000000?text=+)
-![#ff5c4b](https://placehold.it/25/ff5c4b/000000?text=+)
-![#ff1707](https://placehold.it/25/ff1707/000000?text=+)
-![#eb0e02](https://placehold.it/25/eb0e02/000000?text=+)
+
+Compared to Material UIs colors
+
+![#e0f2f1](https://placehold.it/25/e0f2f1/000000?text=+)
+![#b2dfdb](https://placehold.it/25/b2dfdb/000000?text=+)
+![#80cbc4](https://placehold.it/25/80cbc4/000000?text=+)
+![#4db6ac](https://placehold.it/25/4db6ac/000000?text=+)
+![#26a69a](https://placehold.it/25/26a69a/000000?text=+)
+![#009688](https://placehold.it/25/009688/000000?text=+)
+![#00897b](https://placehold.it/25/00897b/000000?text=+)
+![#00796b](https://placehold.it/25/00796b/000000?text=+)
+![#00695c](https://placehold.it/25/00695c/000000?text=+)
+![#004d40](https://placehold.it/25/004d40/000000?text=+)
+![#a7ffeb](https://placehold.it/25/a7ffeb/000000?text=+)
+![#64ffda](https://placehold.it/25/64ffda/000000?text=+)
+![#1de9b6](https://placehold.it/25/1de9b6/000000?text=+)
+![#00bfa5](https://placehold.it/25/00bfa5/000000?text=+)
