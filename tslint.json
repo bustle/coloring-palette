@@ -6,6 +6,7 @@
     ],
     "jsRules": {},
     "rules": {
+        "interface-name": false,
         "adjacent-overload-signatures": false,
         "arrow-parens": [
             true,
@@ -16,6 +17,7 @@
         "interface-over-type-literal": false,
         "no-empty": false,
         "ordered-imports": false,
+        "object-literal-sort-keys": false,
         "prettier": [
             true,
             {

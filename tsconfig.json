@@ -8,10 +8,11 @@
     "noImplicitAny": false,
     "strictNullChecks": true,
     "declaration": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "esModuleInterop": true,
   },
   "include": [
-    "./index.ts",
+    "lib",
   ],
   "exclude": [
     "node_modules"
