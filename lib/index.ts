@@ -2,7 +2,7 @@
  * code modified from https://github.com/lyft/coloralgorithm/blob/1cef3987fdea2af8cfcc9b4bfd132ccf5684a030/src/generate.js
  */
 
- import tinycolor, { TinyColor, ColorInput, ColorFormats } from '@ctrl/tinycolor'
+import tinycolor, { TinyColor, ColorInput, ColorFormats } from '@ctrl/tinycolor'
 import bezier from 'bezier-easing'
 import { easeInQuad, easeOutQuad, muiHueCurve, muiSatCurve, muiValCurve } from './curves'
 const { abs, ceil, round, sqrt, cos, log10 } = Math
@@ -28,26 +28,28 @@ export interface GenerateShadesOptions extends GenerateMaterialUIPaletteOptions 
   readonly steps?: number
 }
 
-export interface MaterialUIPalette {
-  readonly 50: { color: Color; contrastText: Color }
-  readonly 100: { color: Color; contrastText: Color }
-  readonly 200: { color: Color; contrastText: Color }
-  readonly 300: { color: Color; contrastText: Color }
-  readonly 400: { color: Color; contrastText: Color }
-  readonly 500: { color: Color; contrastText: Color }
-  readonly 600: { color: Color; contrastText: Color }
-  readonly 700: { color: Color; contrastText: Color }
-  readonly 800: { color: Color; contrastText: Color }
-  readonly 900: { color: Color; contrastText: Color }
-  readonly A100: { color: Color; contrastText: Color }
-  readonly A200: { color: Color; contrastText: Color }
-  readonly A400: { color: Color; contrastText: Color }
-  readonly A700: { color: Color; contrastText: Color }
-}
+export type ShadeKey =
+  | '50'
+  | '100'
+  | '200'
+  | '300'
+  | '400'
+  | '500'
+  | '600'
+  | '700'
+  | '800'
+  | '900'
+  | 'A100'
+  | 'A200'
+  | 'A400'
+  | 'A700'
+
+export type MaterialUIPalette = { [key in ShadeKey]: { color: Color; contrastText: Color } }
 
 const atMost100 = num => (num > 100 ? 100 : num)
 
 function generateValStart(v) {
+  // given a value between 0 and 100 it returns a value from 50 - 100
   return round(100 - (100 - v / 100 - sqrt(v) + v * cos(2.65)) / (2 * log10(v + 1) + 1.25))
 }
 
@@ -84,7 +86,7 @@ const altColorAdjs = {
   A700: { hAdj: 4, sAdj: 120, vAdj: 123 },
 }
 
-function contrastText(color) {
+export function contrastText(color) {
   return tinycolor(color).getLuminance() < 1 / 3 ? tinycolor('#FFF') : tinycolor('#000')
 }
 
@@ -228,8 +230,9 @@ export function generateMaterialUIPalette({
   }
 }
 
-export default function materialUI(color: ColorInput, format: ColorFormat = 'hex') {
-  const { h, s, v } = tinycolor(color).toHsv()
+export default function coloringPalette(color: ColorInput, format: ColorFormat = 'hex') {
+  const defaultColor = tinycolor(color)
+  const { h, s, v } = defaultColor.toHsv()
 
   const hueStart = h
   const satStart = round(s * 10)
@@ -238,5 +241,10 @@ export default function materialUI(color: ColorInput, format: ColorFormat = 'hex
   const satEnd = round(atMost100(s * 108))
   const valEnd = round(v * 66)
 
-  return generateMaterialUIPalette({ hueStart, satStart, valStart, hueEnd, valEnd, satEnd, format })
+  const palette = generateMaterialUIPalette({ hueStart, satStart, valStart, hueEnd, valEnd, satEnd, format })
+  palette[500] = {
+    color: formatColor(defaultColor, format),
+    contrastText: formatColor(contrastText(defaultColor), format),
+  }
+  return palette
 }
