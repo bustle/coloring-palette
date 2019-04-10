@@ -1,3 +1,6 @@
+/*
+ * code modified from https://github.com/lyft/coloralgorithm/blob/1cef3987fdea2af8cfcc9b4bfd132ccf5684a030/src/curves.js
+ */
 import bezier from 'bezier-easing'
 
 export const linear = bezier(0.5, 0.5, 0.5, 0.5)

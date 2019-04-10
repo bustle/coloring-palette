@@ -1,4 +1,8 @@
-import tinycolor, { TinyColor, ColorInput, ColorFormats } from '@ctrl/tinycolor'
+/*
+ * code modified from https://github.com/lyft/coloralgorithm/blob/1cef3987fdea2af8cfcc9b4bfd132ccf5684a030/src/generate.js
+ */
+
+ import tinycolor, { TinyColor, ColorInput, ColorFormats } from '@ctrl/tinycolor'
 import bezier from 'bezier-easing'
 import { easeInQuad, easeOutQuad, muiHueCurve, muiSatCurve, muiValCurve } from './curves'
 const { abs, ceil, round, sqrt, cos, log10 } = Math
