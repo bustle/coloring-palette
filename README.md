@@ -91,7 +91,7 @@ const shades = generateShades({
   valEnd: 72,
   format: 'hex',
 })
-// [ '#e6dcdd', '#e3b1b4', '#db8489', '#d16066', '#c24246', '#ad2b2e', '#911c1c', '#6e120f', '#450c08', '#1a0403' ]
+// [ '#ffebee', '#ffbfc9', '#fc97a5', '#fa7585', '#f25764', '#ed424b', '#e33434', '#d63129', '#c73320', '#b8361c' ]
 ```
 Or better visualized as;
 
