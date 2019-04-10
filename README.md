@@ -1,11 +1,67 @@
 # coloring-palette
-A library that generates color palettes based on the Material UI color system, forked from [Lyft's coloralgorithm](https://github.com/lyft/coloralgorithm)
+A library that generates color palettes based on the Material UI color system, and the underlying algorithm to generate colors is forked from [Lyft's coloralgorithm](https://github.com/lyft/coloralgorithm)
+
+# Usage
+```sh
+npm install coloring-palette
+```
+```ts
+import coloringPalette from 'coloring-palette'
+const shades = coloringPalette('#009688', 'hex')
+// { '50': { color: '#edddf0', contrastText: '#000000' },
+//   '100': { color: '#e7b9f0', contrastText: '#000000' },
+//   '200': { color: '#da8ee8', contrastText: '#000000' },
+//   '300': { color: '#c95fde', contrastText: '#ffffff' },
+//   '400': { color: '#b63dd1', contrastText: '#ffffff' },
+//   '500': { color: '#9c27b0', contrastText: '#ffffff' },
+//   '600': { color: '#9120b0', contrastText: '#ffffff' },
+//   '700': { color: '#7d1a9c', contrastText: '#ffffff' },
+//   '800': { color: '#6f168a', contrastText: '#ffffff' },
+//   '900': { color: '#5d1375', contrastText: '#ffffff' },
+//   A100: { color: '#ed89fc', contrastText: '#000000' },
+//   A200: { color: '#e54afb', contrastText: '#ffffff' },
+//   A400: { color: '#ca07ec', contrastText: '#ffffff' },
+//   A700: { color: '#9f00c0', contrastText: '#ffffff' } }
+```
+Visualized below
+
+![#edddf0](https://placehold.it/25/edddf0/000000?text=+)
+![#e7b9f0](https://placehold.it/25/e7b9f0/000000?text=+)
+![#da8ee8](https://placehold.it/25/da8ee8/000000?text=+)
+![#c95fde](https://placehold.it/25/c95fde/000000?text=+)
+![#b63dd1](https://placehold.it/25/b63dd1/000000?text=+)
+![#9c27b0](https://placehold.it/25/9c27b0/000000?text=+)
+![#9120b0](https://placehold.it/25/9120b0/000000?text=+)
+![#7d1a9c](https://placehold.it/25/7d1a9c/000000?text=+)
+![#6f168a](https://placehold.it/25/6f168a/000000?text=+)
+![#5d1375](https://placehold.it/25/5d1375/000000?text=+)
+![#ed89fc](https://placehold.it/25/ed89fc/000000?text=+)
+![#e54afb](https://placehold.it/25/e54afb/000000?text=+)
+![#ca07ec](https://placehold.it/25/ca07ec/000000?text=+)
+![#9f00c0](https://placehold.it/25/9f00c0/000000?text=+)
+
+Compared to Material UIs
+
+![#f3e5f5](https://placehold.it/25/f3e5f5/000000?text=+)
+![#e1bee7](https://placehold.it/25/e1bee7/000000?text=+)
+![#ce93d8](https://placehold.it/25/ce93d8/000000?text=+)
+![#ba68c8](https://placehold.it/25/ba68c8/000000?text=+)
+![#ab47bc](https://placehold.it/25/ab47bc/000000?text=+)
+![#9c27b0](https://placehold.it/25/9c27b0/000000?text=+)
+![#8e24aa](https://placehold.it/25/8e24aa/000000?text=+)
+![#7b1fa2](https://placehold.it/25/7b1fa2/000000?text=+)
+![#6a1b9a](https://placehold.it/25/6a1b9a/000000?text=+)
+![#4a148c](https://placehold.it/25/4a148c/000000?text=+)
+![#ea80fc](https://placehold.it/25/ea80fc/000000?text=+)
+![#e040fb](https://placehold.it/25/e040fb/000000?text=+)
+![#d500f9](https://placehold.it/25/d500f9/000000?text=+)
+![#aa00ff](https://placehold.it/25/aa00ff/000000?text=+)
 
 # API
 
 ## generateShades
 
-Generates an array of `TinyColor` shades between two HSV values using optional curve functions. Defaults to ease-in/ease-out curves and 10 shades. For inputs the `hue` is a number from 0 - 360, `saturation` and `value` are both numbers from 0 - 100.
+Generates an array of `TinyColor` shades between two HSV values using optional curve functions. Defaults to ease-in/ease-out curves and 10 shades. For inputs the `hue` is a number from 0 - 360, `saturation` and `value` are both numbers from 0 - 100. `generateShades` will assume the shortest distance between the given hues; therefore, as seen below, 350 to 10 will only include shades of red.
 
 ```ts
 export declare function generateShades({ hueStart, hueEnd, hueCurve, satStart, satEnd, satCurve, satRate, valStart, valEnd, valCurve, steps, format }: GenerateShadesOptions): Color[];
@@ -25,12 +81,12 @@ export interface GenerateShadesOptions {
   readonly format = null, // the desired output of the array, null defaults to Tinycolor instances
 }
 
-// given the reds hsv(351, 8, 100) and hsv(0, 85, 72)
+// given the reds hsv(350, 8, 100) and hsv(10, 85, 72)
 const shades = generateShades({
-  hueStart: 351,
+  hueStart: 350,
   satStart: 8,
   valStart: 100,
-  hueEnd: 0,
+  hueEnd: 10,
   satEnd: 85,
   valEnd: 72,
   format: 'hex',
@@ -40,15 +96,15 @@ const shades = generateShades({
 Or better visualized as;
 
 ![#ffebee](https://placehold.it/25/ffebee/000000?text=+)
-![#ffbfc8](https://placehold.it/25/ffbfc8/000000?text=+)
+![#ffbfc9](https://placehold.it/25/ffbfc9/000000?text=+)
 ![#fc97a5](https://placehold.it/25/fc97a5/000000?text=+)
 ![#fa7585](https://placehold.it/25/fa7585/000000?text=+)
-![#f25769](https://placehold.it/25/f25769/000000?text=+)
-![#ed4253](https://placehold.it/25/ed4253/000000?text=+)
-![#e33440](https://placehold.it/25/e33440/000000?text=+)
-![#d62931](https://placehold.it/25/d62931/000000?text=+)
-![#c72023](https://placehold.it/25/c72023/000000?text=+)
-![#b81c1c](https://placehold.it/25/b81c1c/000000?text=+)
+![#f25764](https://placehold.it/25/f25764/000000?text=+)
+![#ed424b](https://placehold.it/25/ed424b/000000?text=+)
+![#e33434](https://placehold.it/25/e33434/000000?text=+)
+![#d63129](https://placehold.it/25/d63129/000000?text=+)
+![#c73320](https://placehold.it/25/c73320/000000?text=+)
+![#b8361c](https://placehold.it/25/b8361c/000000?text=+)
 
 ## generateMaterialUIPalette
 
@@ -148,13 +204,13 @@ Compared to MaterialUIs
 ![#ff1744](https://placehold.it/25/ff1744/000000?text=+)
 ![#d50000](https://placehold.it/25/d50000/000000?text=+)
 
-## materialUI
-Generates a color palette based on material ui from a color input. Shades returned are `TinyColor` objects or strings, based on the `format` option, which defaults to `'hex'`.
+## coloringPalette
+Generates a color palette based on material ui from a color input. Shades returned are `TinyColor` objects or strings, based on the `format` option, which defaults to `'hex'`. Note: the original color input may not be present in the resulting palette generated.
 
 ```ts
-export declare function materialUI(color: ColorInput, format: ColorFormat = 'hex'): TinyColor[];
+export declare function coloringPalette(color: ColorInput, format: ColorFormat = 'hex'): TinyColor[];
 // Given a Teal input
-const shades = materialUI('#009688', 'hex')
+const shades = coloringPalette('#009688', 'hex')
 // { '50': { color: '#dcf5f2', contrastText: '#000000' },
 //   '100': { color: '#b0f5ee', contrastText: '#000000' },
 //   '200': { color: '#7eede2', contrastText: '#000000' },
