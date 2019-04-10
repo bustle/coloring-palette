@@ -187,6 +187,7 @@ APPENDIX: How to apply the Apache License to your work.
       identification within third-party archives.
 
 Copyright 2014 Lyft, Inc.
+
 Copyright 2019 Tristan Siegel
 
 Licensed under the Apache License, Version 2.0 (the "License");
