@@ -1,6 +1,6 @@
 {
   "name": "coloring-palette",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A library that generates color palettes based on the Material UI algorithm",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
